@@ -3,7 +3,6 @@ package service
 import (
 	"context"
 	"errors"
-	"github.com/go-playground/validator/v10"
 	"github.com/zhayt/cert-tz/model"
 	"github.com/zhayt/cert-tz/storage"
 	"go.uber.org/zap"
@@ -25,12 +24,12 @@ var (
 
 type UserService struct {
 	storage  *storage.Storage
+	validate *ValidateService
 	l        *zap.Logger
-	validate *validator.Validate
 }
 
 func (s *UserService) CreateUser(ctx context.Context, user model.User) (uint64, error) {
-	if err := s.validateUserStruct(user); err != nil {
+	if err := s.validate.validateStruct(user); err != nil {
 		s.l.Error("validate error", zap.Error(err))
 		return 0, ErrInvalidData
 	}
@@ -46,7 +45,7 @@ func (s *UserService) GetUser(ctx context.Context, userID uint64) (model.User, e
 }
 
 func (s *UserService) UpdateUser(ctx context.Context, user model.User) (uint64, error) {
-	if err := s.validateUserStruct(user); err != nil {
+	if err := s.validate.validateStruct(user); err != nil {
 		s.l.Error("validate error", zap.Error(err))
 		return 0, ErrInvalidData
 	}
@@ -61,13 +60,10 @@ func (s *UserService) DeleteUser(ctx context.Context, userID uint64) error {
 	return s.storage.UserStorage.DeleteUser(ctx, uint64(userID))
 }
 
-func (s *UserService) validateUserStruct(user model.User) error {
-	return s.validate.Struct(user)
-}
-
-func NewUserService(storage *storage.Storage, l *zap.Logger) *UserService {
+func NewUserService(storage *storage.Storage, validate *ValidateService, l *zap.Logger) *UserService {
 	return &UserService{
 		storage:  storage,
+		validate: validate,
 		l:        l,
-		validate: validator.New()}
+	}
 }
