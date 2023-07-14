@@ -10,6 +10,8 @@ func (s *Server) InitRoute() http.Handler {
 
 	r.HandleFunc("/rest/substr/find", s.handler.FindSubString).Methods(http.MethodPost)
 
+	r.HandleFunc("/rest/email/check", s.handler.AnalysisToEmail).Methods(http.MethodPost)
+
 	r.HandleFunc("/rest/user", s.handler.CreateUser).Methods(http.MethodPost)
 	r.HandleFunc("/rest/user/{id}", s.handler.GetUser).Methods(http.MethodGet)
 	r.HandleFunc("/rest/user/{id}", s.handler.UpdateUser).Methods(http.MethodPut)
