@@ -6,12 +6,17 @@ import (
 )
 
 type Service struct {
-	User IUserService
+	User   IUserService
+	SubStr ISubStrService
 }
 
 func NewService(storage *storage.Storage, l *zap.Logger) *Service {
-	userService := NewUserService(storage, l)
+	validateService := NewValidateService()
+	userService := NewUserService(storage, validateService, l)
+	subStrService := NewSubStrService(validateService, l)
+
 	return &Service{
-		User: userService,
+		User:   userService,
+		SubStr: subStrService,
 	}
 }
