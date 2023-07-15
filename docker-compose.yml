@@ -46,6 +46,7 @@ services:
       - "8000:8000"
     environment:
       - DB_HOST=postgres
+      - REDIS_HOST=cache
     networks:
       - internal
     depends_on:
