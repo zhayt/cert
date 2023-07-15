@@ -31,7 +31,7 @@ func (h *Handler) CreateUser(w http.ResponseWriter, r *http.Request) {
 		h.l.Error("CreateUser error", zap.Error(err))
 
 		if errors.Is(err, service.ErrInvalidData) {
-			h.respondWithError(w, http.StatusBadRequest, "invalid data has been entered")
+			h.respondWithError(w, http.StatusBadRequest, http.StatusText(http.StatusBadRequest))
 			return
 		}
 
