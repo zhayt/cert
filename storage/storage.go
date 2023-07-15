@@ -22,17 +22,26 @@ type ICounterStorage interface {
 	GetCounter(ctx context.Context, key string) (string, error)
 }
 
+type IHashStorage interface {
+	CreateHash(hash model.CertHash) (uint64, error)
+	GetHash(hashID uint64) (model.CertHash, error)
+	UpdateHash(hash model.CertHash) error
+}
+
 type Storage struct {
 	UserStorage IUserStorage
 	Cache       ICounterStorage
+	Hash        IHashStorage
 }
 
 func NewStorage(db *sqlx.DB, redisClient *redis.Client) *Storage {
 	userStorage := postgre.NewUserStorage(db)
 	counterStorage := cache.NewCounterStorage(redisClient)
+	hashStorage := postgre.NewHashStorage(db)
 
 	return &Storage{
 		UserStorage: userStorage,
 		Cache:       counterStorage,
+		Hash:        hashStorage,
 	}
 }

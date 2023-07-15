@@ -3,3 +3,11 @@ CREATE TABLE IF NOT EXISTS cert_user (
     first_name VARCHAR(255) NOT NULL,
     last_name VARCHAR(255) NOT NULL
 );
+
+CREATE TABLE IF NOT EXISTS cert_hash (
+    id SERIAL PRIMARY KEY,
+    input_str VARCHAR(255) NOT NULL,
+    hash VARCHAR(255) NOT NULL,
+    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    calculated_at TIMESTAMP
+);

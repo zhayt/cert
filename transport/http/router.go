@@ -21,5 +21,8 @@ func (s *Server) InitRoute() http.Handler {
 	r.HandleFunc("/rest/user/{id}", s.handler.UpdateUser).Methods(http.MethodPut)
 	r.HandleFunc("/rest/user/{id}", s.handler.DeleteUser).Methods(http.MethodDelete)
 
+	r.HandleFunc("/rest/hash/calc", s.handler.HashCalculation).Methods(http.MethodPost)
+	r.HandleFunc("/rest/hash/result/{id}", s.handler.ShowHash).Methods(http.MethodGet)
+
 	return r
 }
