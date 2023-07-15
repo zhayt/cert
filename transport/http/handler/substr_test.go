@@ -28,7 +28,7 @@ func TestHandler_FindSubString1(t *testing.T) {
 
 	resRecorder := httptest.NewRecorder()
 	reqBody := bytes.NewBufferString(`{"input": "abcdabcde"}`)
-	req, err := http.NewRequest("POST", "/find-substring", reqBody)
+	req, err := http.NewRequest("POST", "/rest/substr/find", reqBody)
 
 	if err != nil {
 		t.Fatalf("Failed to create request: %v", err)
