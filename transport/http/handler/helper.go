@@ -15,6 +15,10 @@ type SuccessUserResponse struct {
 	Message string `json:"message"`
 }
 
+type CommonSuccessResponse struct {
+	Message string `json:"message"`
+}
+
 func (h *Handler) respondWithError(w http.ResponseWriter, code int, message string) {
 	response := ErrorResponse{
 		Code:    code,
@@ -30,6 +34,17 @@ func (h *Handler) respondWithError(w http.ResponseWriter, code int, message stri
 func (h *Handler) respondWithSuccess(w http.ResponseWriter, userID uint64, message string) {
 	response := SuccessUserResponse{
 		UserID:  userID,
+		Message: message,
+	}
+
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(http.StatusOK)
+
+	json.NewEncoder(w).Encode(response)
+}
+
+func (h *Handler) respondWithCommonSuccess(w http.ResponseWriter, message string) {
+	response := CommonSuccessResponse{
 		Message: message,
 	}
 

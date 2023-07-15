@@ -6,6 +6,7 @@ import (
 	"github.com/zhayt/cert-tz/service"
 	"github.com/zhayt/cert-tz/storage"
 	"github.com/zhayt/cert-tz/storage/postgre"
+	cache "github.com/zhayt/cert-tz/storage/redis"
 	server "github.com/zhayt/cert-tz/transport/http"
 	"github.com/zhayt/cert-tz/transport/http/handler"
 	"go.uber.org/zap"
@@ -55,7 +56,12 @@ func run() error {
 	}
 	defer db.Close()
 
-	repo := storage.NewStorage(db)
+	redisClient, err := cache.NewRedisClient(cfg)
+	if err != nil {
+		return err
+	}
+
+	repo := storage.NewStorage(db, redisClient)
 
 	// init service layer
 	usecases := service.NewService(repo, l)

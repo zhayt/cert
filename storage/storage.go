@@ -3,8 +3,10 @@ package storage
 import (
 	"context"
 	"github.com/jmoiron/sqlx"
+	"github.com/redis/go-redis/v9"
 	"github.com/zhayt/cert-tz/model"
 	"github.com/zhayt/cert-tz/storage/postgre"
+	cache "github.com/zhayt/cert-tz/storage/redis"
 )
 
 type IUserStorage interface {
@@ -14,12 +16,23 @@ type IUserStorage interface {
 	DeleteUser(ctx context.Context, userID uint64) error
 }
 
-type Storage struct {
-	UserStorage IUserStorage
+type ICounterStorage interface {
+	IncreaseCounter(ctx context.Context, key string, val int64) error
+	DecreaseCounter(ctx context.Context, key string, val int64) error
+	GetCounter(ctx context.Context, key string) (string, error)
 }
 
-func NewStorage(db *sqlx.DB) *Storage {
-	userStorage := postgre.NewUserStorage(db)
+type Storage struct {
+	UserStorage IUserStorage
+	Cache       ICounterStorage
+}
 
-	return &Storage{UserStorage: userStorage}
+func NewStorage(db *sqlx.DB, redisClient *redis.Client) *Storage {
+	userStorage := postgre.NewUserStorage(db)
+	counterStorage := cache.NewCounterStorage(redisClient)
+
+	return &Storage{
+		UserStorage: userStorage,
+		Cache:       counterStorage,
+	}
 }
