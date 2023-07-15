@@ -6,6 +6,7 @@ import (
 	"go.uber.org/zap"
 )
 
+//go:generate mockery --name ICounterService
 type ICounterService interface {
 	IncreaseCounter(ctx context.Context, key string, val int64) error
 	DecreaseCounter(ctx context.Context, key string, val int64) error

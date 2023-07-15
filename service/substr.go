@@ -4,6 +4,7 @@ import (
 	"go.uber.org/zap"
 )
 
+//go:generate mockery --name ISubStrService
 type ISubStrService interface {
 	LongestSubstring(str string) (string, error)
 }

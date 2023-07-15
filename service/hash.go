@@ -16,6 +16,7 @@ var ErrWorkersPool = errors.New("the workers' pool is full")
 
 const N = 3
 
+//go:generate mockery --name IHashService
 type IHashService interface {
 	CalculateHash(certHash model.CertHash) (uint64, error)
 	GetCalculatedHash(hashID uint64) (model.CertHash, error)

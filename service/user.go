@@ -11,6 +11,7 @@ import (
 	"strings"
 )
 
+//go:generate mockery --name IUserService
 type IUserService interface {
 	CreateUser(ctx context.Context, user model.User) (uint64, error)
 	GetUser(ctx context.Context, userID uint64) (model.User, error)
