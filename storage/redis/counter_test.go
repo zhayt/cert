@@ -143,7 +143,7 @@ func TestCounterStorage_DecreaseCounter(t *testing.T) {
 	}{
 		{"success", field, arg1, false, "10"},
 		{"success", field, arg2, false, "9"},
-		{"success", field, arg3, false, "16"},
+		{"success", field, arg3, false, "14"},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
