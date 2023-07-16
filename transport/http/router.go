@@ -11,6 +11,7 @@ func (s *Server) InitRoute() http.Handler {
 	r.HandleFunc("/rest/substr/find", s.handler.FindSubString).Methods(http.MethodPost)
 
 	r.HandleFunc("/rest/email/check", s.handler.AnalysisToEmail).Methods(http.MethodPost)
+	r.HandleFunc("/rest/iin/check", s.handler.AnalysisToIIN).Methods(http.MethodPost)
 
 	r.HandleFunc("/rest/counter/add/{i}", s.handler.CounterIncrease).Methods(http.MethodPost)
 	r.HandleFunc("/rest/counter/sub/{i}", s.handler.CounterDecrease).Methods(http.MethodPost)
