@@ -2,7 +2,10 @@ package postgre_test
 
 import (
 	"context"
+	"fmt"
 	"github.com/jmoiron/sqlx"
+	"github.com/testcontainers/testcontainers-go"
+	"github.com/testcontainers/testcontainers-go/wait"
 	"regexp"
 	"testing"
 
@@ -143,4 +146,81 @@ func TestUserStorage_DeleteUser(t *testing.T) {
 	// Ensure that all expectations were met
 	err = mock.ExpectationsWereMet()
 	assert.NoError(t, err)
+}
+
+func TestUserStorage_UpdateUser1(t *testing.T) {
+	// Create PostgreSQL container request
+	containerReq := testcontainers.ContainerRequest{
+		Image:        "postgres:latest",
+		ExposedPorts: []string{"5432/tcp"},
+		WaitingFor:   wait.ForListeningPort("5432/tcp"),
+		Env: map[string]string{
+			"POSTGRES_DB":       "cert_db",
+			"POSTGRES_PASSWORD": "qwerty",
+			"POSTGRES_USER":     "cert",
+		},
+	}
+
+	// Start PostgreSQL container
+	dbContainer, err := testcontainers.GenericContainer(
+		context.Background(),
+		testcontainers.GenericContainerRequest{
+			ContainerRequest: containerReq,
+			Started:          true,
+		})
+	if err != nil {
+		t.Error(err)
+	}
+
+	// Get host and port of PostgreSQL container
+	port, err := dbContainer.MappedPort(context.Background(), "5432")
+	if err != nil {
+		t.Error(err)
+	}
+
+	host, err := dbContainer.Host(context.Background())
+	if err != nil {
+		t.Error(err)
+	}
+
+	// Create db connection string and connect
+	dbURI := fmt.Sprintf("postgres://cert:qwerty@%v:%v/cert_db", host, port.Port())
+
+	db, err := sqlx.Connect("pgx", dbURI)
+	if err != nil {
+		t.Error(err)
+	}
+
+	_, err = db.Exec(`CREATE TABLE IF NOT EXISTS cert_user (
+    id SERIAL PRIMARY KEY,
+    first_name VARCHAR(255) NOT NULL,
+    last_name VARCHAR(255) NOT NULL
+);`)
+	if err != nil {
+		t.Error(err)
+	}
+	_, err = db.Exec(`INSERT INTO cert_user (first_name, last_name) VALUES ('Certtest', 'Cert')`)
+	if err != nil {
+		t.Error(err)
+	}
+
+	type args struct {
+		ctx  context.Context
+		user model.User
+	}
+	tests := []struct {
+		name string
+		args args
+		want uint64
+	}{
+		{"success", args{context.Background(), model.User{ID: 1, FirstName: "Updated", LastName: "Cert"}}, 1},
+		{"failed", args{context.Background(), model.User{ID: 2, FirstName: "Updated", LastName: "Cert"}}, 0},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			r := postgre.NewUserStorage(db)
+			got, _ := r.UpdateUser(tt.args.ctx, tt.args.user)
+			assert.Equalf(t, tt.want, got, "UpdateUser(%v, %v)", tt.args.ctx, tt.args.user)
+		})
+	}
 }
