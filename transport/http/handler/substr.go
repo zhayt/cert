@@ -37,5 +37,6 @@ func (h *Handler) FindSubString(w http.ResponseWriter, r *http.Request) {
 
 	w.Header().Set("Content-Type", "application/json")
 
+	h.l.Info("sub string found", zap.String("substring", output.Str))
 	json.NewEncoder(w).Encode(output)
 }

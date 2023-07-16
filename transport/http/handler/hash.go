@@ -71,6 +71,7 @@ func (h *Handler) ShowHash(w http.ResponseWriter, r *http.Request) {
 		h.respondWithError(w, http.StatusInternalServerError, http.StatusText(http.StatusInternalServerError))
 		return
 	}
+
 	w.Header().Set("Content-Type", "application/json")
 	h.l.Info("Calculated Hash found", zap.Int("id", hashID), zap.String("hash", certHash.Hash))
 	json.NewEncoder(w).Encode(certHash)

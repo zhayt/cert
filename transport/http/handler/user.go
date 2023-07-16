@@ -87,8 +87,9 @@ func (h *Handler) UpdateUser(w http.ResponseWriter, r *http.Request) {
 
 	var user model.User
 
+	err = json.NewDecoder(r.Body).Decode(&user)
 	defer r.Body.Close()
-	if err := json.NewDecoder(r.Body).Decode(&user); err != nil {
+	if err != nil {
 		h.l.Error("create user: decode error", zap.Error(err))
 
 		h.respondWithError(w, http.StatusBadRequest, http.StatusText(http.StatusBadRequest))
