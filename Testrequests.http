@@ -1,0 +1,71 @@
+### Send POST request for find longest substring
+POST http://localhost:8000/rest/substr/find
+Content-Type: application/json
+
+{
+  "input": "TheLongesttSubStringWithoutRepeatingSCharactersIsQwertyIsHa1d4"
+}
+
+
+### Send POST request for find all valid email from text
+POST http://localhost:8000/rest/email/check
+Content-Type: application/json
+
+{
+  "text": "Just find emails after Email:     cert-kz@example.com      ignoring all space and new line between Email:                  \n\n  \n   email@gamil.org  . This Email: not_valid@emailru Answer: cert-kz@example.com, email@gamil.org"
+}
+
+### Send POST request to find all valid IINs from text.
+POST http://localhost:8000/rest/iin/check
+Content-Type: application/json
+
+{
+  "text": "Input your iin here: ____________, If it is valid, you will see it along with this iin in the response 011127550738. Regarding this INN 011127550739, it is not the correct INN, if you want to know why it is not valid, read the code where I check the INN, hint I do it in the service layer"
+}
+
+
+### Send POST request to increase counter
+POST http://localhost:8000/rest/counter/add/10
+
+### Send GET request to get counter value
+GET http://localhost:8000/rest/counter/val
+
+### Send POST request to decrease counter
+POST http://localhost:8000/rest/counter/sub/10
+
+
+### Send POST request to create user
+POST http://localhost:8000/rest/user
+Content-Type: application/json
+
+{
+  "first_name": "cert",
+  "last_name": "user"
+}
+
+### Send GET request to get uset by id
+GET http://localhost:8000/rest/user/1
+
+### Send PUT request to update user data
+PUT http://localhost:8000/rest/user/1
+Content-Type: application/json
+
+{
+  "first_name": "cert",
+  "last_name": "updated"
+}
+
+### Send DELETE request to delete user data
+DELETE http://localhost:8000/rest/user/1
+
+
+### Send POST request to calculate hash
+POST http://localhost:8000/rest/hash/calc
+Content-Type: application/json
+
+{
+  "input_str": "calculate hash"
+}
+
+### Send GET request to get calculated hash
+GET http://localhost:8000/rest/hash/result/1
