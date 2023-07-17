@@ -105,6 +105,8 @@ func (h *Handler) ShowCounter(w http.ResponseWriter, r *http.Request) {
 
 	response := CounterResponse{Value: val}
 
+	w.Header().Set("Content-Type", "application/json")
+
 	h.l.Info("counter value got", zap.String("val", val))
 	json.NewEncoder(w).Encode(response)
 }
