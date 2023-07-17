@@ -1,0 +1,438 @@
+basePath: /rest
+definitions:
+  handler.AnalysisRequest:
+    properties:
+      text:
+        type: string
+    type: object
+  handler.AnalysisResponseEmail:
+    properties:
+      emails:
+        items:
+          type: string
+        type: array
+    type: object
+  handler.AnalysisResponseIINs:
+    properties:
+      iins:
+        items:
+          type: string
+        type: array
+    type: object
+  handler.CounterResponse:
+    properties:
+      value:
+        type: string
+    type: object
+  handler.ErrorResponse:
+    properties:
+      code:
+        type: integer
+      message:
+        type: string
+    type: object
+  handler.Input:
+    properties:
+      input:
+        type: string
+    type: object
+  handler.Output:
+    properties:
+      output:
+        type: string
+    type: object
+  handler.SuccessUserResponse:
+    properties:
+      message:
+        type: string
+      user_id:
+        type: integer
+    type: object
+  handler.TMP:
+    properties:
+      id:
+        type: integer
+    type: object
+  handler.TMp:
+    properties:
+      message:
+        type: string
+    type: object
+  model.CertHash:
+    properties:
+      calculated_at:
+        type: string
+      created_at:
+        type: string
+      hash:
+        type: string
+      id:
+        type: integer
+      input_str:
+        maxLength: 255
+        minLength: 1
+        type: string
+    required:
+    - input_str
+    type: object
+  model.User:
+    properties:
+      first_name:
+        maxLength: 50
+        minLength: 3
+        type: string
+      id:
+        type: integer
+      last_name:
+        maxLength: 50
+        minLength: 3
+        type: string
+    required:
+    - first_name
+    - last_name
+    type: object
+host: localhost:8000
+info:
+  contact: {}
+  description: ЦАРКА Тествое задание.
+  termsOfService: http://swagger.io/terms/
+  title: ЦАРКА REST API
+  version: "1.0"
+paths:
+  /counter/add/{i}:
+    post:
+      consumes:
+      - application/json
+      description: Increases the counter value by the specified amount.
+      parameters:
+      - description: Amount to increase the counter value by
+        in: path
+        name: i
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Successful response
+          schema:
+            $ref: '#/definitions/handler.CounterResponse'
+        "400":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/handler.ErrorResponse'
+        "500":
+          description: Internal Error
+          schema:
+            $ref: '#/definitions/handler.ErrorResponse'
+      summary: Increase the counter value
+      tags:
+      - Counter
+  /counter/decrease/{i}:
+    post:
+      consumes:
+      - application/json
+      description: Decreases the counter value by the specified amount.
+      parameters:
+      - description: Amount to decrease the counter value by
+        in: path
+        name: i
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Successful response
+          schema:
+            $ref: '#/definitions/handler.CounterResponse'
+        "400":
+          description: Not found
+          schema:
+            $ref: '#/definitions/handler.ErrorResponse'
+        "500":
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/handler.ErrorResponse'
+      summary: Decrease the counter value
+      tags:
+      - Counter
+  /counter/val:
+    get:
+      consumes:
+      - application/json
+      description: Retrieves the current value of the counter.
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Successful response
+          schema:
+            $ref: '#/definitions/handler.CounterResponse'
+      summary: Get the counter value
+      tags:
+      - Counter
+  /email/check:
+    post:
+      consumes:
+      - application/json
+      description: Analyzes the provided text to identify and extract emails.
+      parameters:
+      - description: Text to analyze
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/handler.AnalysisRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Successful response
+          schema:
+            $ref: '#/definitions/handler.AnalysisResponseEmail'
+        "400":
+          description: Not found
+          schema:
+            $ref: '#/definitions/handler.ErrorResponse'
+      summary: Analyze text to extract emails
+      tags:
+      - Analysis
+  /hash/calc:
+    post:
+      consumes:
+      - application/json
+      description: Calculates the hash for a given certificate.
+      parameters:
+      - description: Certificate hash details
+        in: body
+        name: certHash
+        required: true
+        schema:
+          $ref: '#/definitions/model.CertHash'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Successful response
+          schema:
+            $ref: '#/definitions/handler.TMP'
+        "400":
+          description: Not found
+          schema:
+            $ref: '#/definitions/handler.ErrorResponse'
+        "500":
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/handler.ErrorResponse'
+        "503":
+          description: Service unavailable
+          schema:
+            $ref: '#/definitions/handler.TMp'
+      summary: Calculate certificate hash
+      tags:
+      - Hash
+  /hash/result/{id}:
+    get:
+      consumes:
+      - application/json
+      description: Retrieves the calculated hash for a given ID.
+      parameters:
+      - description: Hash ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Successful response
+          schema:
+            $ref: '#/definitions/model.CertHash'
+        "404":
+          description: Not found
+          schema:
+            $ref: '#/definitions/handler.ErrorResponse'
+        "500":
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/handler.ErrorResponse'
+      summary: Get calculated hash
+      tags:
+      - Hash
+  /iin/check:
+    post:
+      consumes:
+      - application/json
+      description: Analyzes the provided text to identify and extract IINs (Individual
+        Identification Numbers).
+      parameters:
+      - description: Text to analyze
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/handler.AnalysisRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Successful response
+          schema:
+            $ref: '#/definitions/handler.AnalysisResponseIINs'
+        "400":
+          description: Not found
+          schema:
+            $ref: '#/definitions/handler.ErrorResponse'
+      summary: Analyze text to extract IINs
+      tags:
+      - Analysis
+  /substr/find:
+    post:
+      consumes:
+      - application/json
+      description: Finds the longest common substring in the given input string.
+      parameters:
+      - description: Input string
+        in: body
+        name: input
+        required: true
+        schema:
+          $ref: '#/definitions/handler.Input'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Successful response
+          schema:
+            $ref: '#/definitions/handler.Output'
+        "400":
+          description: Bad request
+          schema:
+            $ref: '#/definitions/handler.ErrorResponse'
+      summary: Find longest without repeating characters common substring
+      tags:
+      - Substring
+  /user:
+    post:
+      consumes:
+      - application/json
+      description: Creates a new user.
+      parameters:
+      - description: User object
+        in: body
+        name: input
+        required: true
+        schema:
+          $ref: '#/definitions/model.User'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: User ID
+          schema:
+            $ref: '#/definitions/handler.SuccessUserResponse'
+        "400":
+          description: Bad request
+          schema:
+            $ref: '#/definitions/handler.ErrorResponse'
+        "500":
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/handler.ErrorResponse'
+      summary: Create a user
+      tags:
+      - User
+  /user/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Deletes a user by ID.
+      parameters:
+      - description: User ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Successful response
+          schema:
+            $ref: '#/definitions/handler.SuccessUserResponse'
+        "404":
+          description: Not found
+          schema:
+            $ref: '#/definitions/handler.ErrorResponse'
+        "500":
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/handler.ErrorResponse'
+      summary: Delete a user
+      tags:
+      - User
+    get:
+      consumes:
+      - application/json
+      description: Retrieves a user by ID.
+      parameters:
+      - description: User ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Successful response
+          schema:
+            $ref: '#/definitions/model.User'
+        "400":
+          description: Bad request
+          schema:
+            $ref: '#/definitions/handler.ErrorResponse'
+        "500":
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/handler.ErrorResponse'
+      summary: Get a user
+      tags:
+      - User
+    put:
+      consumes:
+      - application/json
+      description: Updates an existing user.
+      parameters:
+      - description: User ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: User object
+        in: body
+        name: input
+        required: true
+        schema:
+          $ref: '#/definitions/model.User'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Successful response
+          schema:
+            $ref: '#/definitions/model.User'
+        "400":
+          description: Bad request
+          schema:
+            $ref: '#/definitions/handler.ErrorResponse'
+        "404":
+          description: Not found
+          schema:
+            $ref: '#/definitions/handler.ErrorResponse'
+      summary: Update a user
+      tags:
+      - User
+swagger: "2.0"

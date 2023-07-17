@@ -14,6 +14,17 @@ type Output struct {
 	Str string `json:"output"`
 }
 
+// FindSubString finds the longest without repeating characters substring in the given input string.
+//
+// @Summary Find longest without repeating characters common substring
+// @Description Finds the longest common substring in the given input string.
+// @Tags Substring
+// @Accept json
+// @Produce json
+// @Param input body Input true "Input string"
+// @Success 200 {object} Output "Successful response"
+// @Failure 400 {object} ErrorResponse "Bad request"
+// @Router /substr/find [post]
 func (h *Handler) FindSubString(w http.ResponseWriter, r *http.Request) {
 	var input Input
 

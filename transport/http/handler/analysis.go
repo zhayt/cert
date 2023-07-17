@@ -18,6 +18,17 @@ type AnalysisResponseIINs struct {
 	IINs []string `json:"iins"`
 }
 
+// AnalysisToEmail analyzes the given text to extract emails.
+//
+// @Summary Analyze text to extract emails
+// @Description Analyzes the provided text to identify and extract emails.
+// @Tags Analysis
+// @Accept json
+// @Produce json
+// @Param request body AnalysisRequest true "Text to analyze"
+// @Success 200 {object} AnalysisResponseEmail "Successful response"
+// @Failure 400 {object} ErrorResponse "Not found"
+// @Router /email/check [post]
 func (h *Handler) AnalysisToEmail(w http.ResponseWriter, r *http.Request) {
 	var request AnalysisRequest
 
@@ -40,6 +51,17 @@ func (h *Handler) AnalysisToEmail(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(response)
 }
 
+// AnalysisToIIN analyzes the given text to extract IINs.
+//
+// @Summary Analyze text to extract IINs
+// @Description Analyzes the provided text to identify and extract IINs (Individual Identification Numbers).
+// @Tags Analysis
+// @Accept json
+// @Produce json
+// @Param request body AnalysisRequest true "Text to analyze"
+// @Success 200 {object} AnalysisResponseIINs "Successful response"
+// @Failure 400 {object} ErrorResponse "Not found"
+// @Router /iin/check [post]
 func (h *Handler) AnalysisToIIN(w http.ResponseWriter, r *http.Request) {
 	var request AnalysisRequest
 

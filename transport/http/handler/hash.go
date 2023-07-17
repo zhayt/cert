@@ -12,6 +12,19 @@ import (
 	"strconv"
 )
 
+// HashCalculation calculates the hash for a given certificate.
+//
+// @Summary Calculate certificate hash
+// @Description Calculates the hash for a given certificate.
+// @Tags Hash
+// @Accept json
+// @Produce json
+// @Param certHash body model.CertHash true "Certificate hash details"
+// @Success 200 {object} struct{ID uint64 `json:"id"`} "Successful response"
+// @Failure 400 {object} ErrorResponse "Not found"
+// @Failure 503 {object} struct { Message string `json:"message"` } "Service unavailable"
+// @Failure 500 {object} ErrorResponse "Internal server error"
+// @Router /hash/calc [post]
 func (h *Handler) HashCalculation(w http.ResponseWriter, r *http.Request) {
 	var certHash model.CertHash
 
@@ -54,6 +67,18 @@ func (h *Handler) HashCalculation(w http.ResponseWriter, r *http.Request) {
 	}{certHash.ID})
 }
 
+// ShowHash retrieves the calculated hash for a given ID.
+//
+// @Summary Get calculated hash
+// @Description Retrieves the calculated hash for a given ID.
+// @Tags Hash
+// @Accept json
+// @Produce json
+// @Param id path integer true "Hash ID"
+// @Success 200 {object} model.CertHash "Successful response"
+// @Failure 404 {object} ErrorResponse "Not found"
+// @Failure 500 {object} ErrorResponse "Internal server error"
+// @Router /hash/result/{id} [get]
 func (h *Handler) ShowHash(w http.ResponseWriter, r *http.Request) {
 	hashID, err := strconv.Atoi(mux.Vars(r)["id"])
 	if err != nil || hashID <= 0 {

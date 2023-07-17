@@ -13,6 +13,18 @@ import (
 	"strconv"
 )
 
+// CreateUser creates a new user.
+//
+// @Summary Create a user
+// @Description Creates a new user.
+// @Tags User
+// @Accept json
+// @Produce json
+// @Param input body model.User true "User object"
+// @Success 200 {object} SuccessUserResponse "User ID"
+// @Failure 400 {object} ErrorResponse "Bad request"
+// @Failure 500 {object} ErrorResponse "Internal server error"
+// @Router /user [post]
 func (h *Handler) CreateUser(w http.ResponseWriter, r *http.Request) {
 	ctx, cancel := context.WithTimeout(context.Background(), _defaultContextTimeout)
 	defer cancel()
@@ -43,6 +55,18 @@ func (h *Handler) CreateUser(w http.ResponseWriter, r *http.Request) {
 	h.respondWithSuccess(w, userID, "user created")
 }
 
+// GetUser retrieves a user by ID.
+//
+// @Summary Get a user
+// @Description Retrieves a user by ID.
+// @Tags User
+// @Accept json
+// @Produce json
+// @Param id path integer true "User ID"
+// @Success 200 {object} model.User "Successful response"
+// @Failure 400 {object} ErrorResponse "Bad request"
+// @Failure 500 {object} ErrorResponse "Internal server error"
+// @Router /user/{id} [get]
 func (h *Handler) GetUser(w http.ResponseWriter, r *http.Request) {
 	ctx, cancel := context.WithTimeout(context.Background(), _defaultContextTimeout)
 	defer cancel()
@@ -73,6 +97,19 @@ func (h *Handler) GetUser(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(user)
 }
 
+// UpdateUser updates an existing user.
+//
+// @Summary Update a user
+// @Description Updates an existing user.
+// @Tags User
+// @Accept json
+// @Produce json
+// @Param id path integer true "User ID"
+// @Param input body model.User true "User object"
+// @Success 200 {object} model.User "Successful response"
+// @Failure 400 {object} ErrorResponse "Bad request"
+// @Failure 404 {object} ErrorResponse "Not found"
+// @Router /user/{id} [put]
 func (h *Handler) UpdateUser(w http.ResponseWriter, r *http.Request) {
 	ctx, cancel := context.WithTimeout(context.Background(), _defaultContextTimeout)
 	defer cancel()
@@ -114,6 +151,18 @@ func (h *Handler) UpdateUser(w http.ResponseWriter, r *http.Request) {
 	h.respondWithSuccess(w, user.ID, "user updated")
 }
 
+// DeleteUser deletes a user by ID.
+//
+// @Summary Delete a user
+// @Description Deletes a user by ID.
+// @Tags User
+// @Accept json
+// @Produce json
+// @Param id path integer true "User ID"
+// @Success 200 {object} SuccessUserResponse "Successful response"
+// @Failure 404 {object} ErrorResponse "Not found"
+// @Failure 500 {object} ErrorResponse "Internal server error"
+// @Router /user/{id} [delete]
 func (h *Handler) DeleteUser(w http.ResponseWriter, r *http.Request) {
 	ctx, cancel := context.WithTimeout(context.Background(), _defaultContextTimeout)
 	defer cancel()

@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"github.com/zhayt/cert-tz/config"
+	_ "github.com/zhayt/cert-tz/docs"
 	"github.com/zhayt/cert-tz/service"
 	"github.com/zhayt/cert-tz/storage"
 	"github.com/zhayt/cert-tz/storage/postgre"
@@ -18,6 +19,12 @@ import (
 	"syscall"
 )
 
+// @title 	ЦАРКА REST API
+// @version	1.0
+// @description ЦАРКА Тествое задание.
+// @termsOfService	http://swagger.io/terms/
+// @host localhost:8000
+// @BasePath	/rest
 func main() {
 	if err := run(); err != nil {
 		log.Fatal(err)
