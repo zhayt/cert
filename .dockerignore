@@ -1,0 +1,7 @@
+README.md
+Makefile
+run.sh
+db-init
+docker-compose.yml
+.gitignore
+Testrequests.http
