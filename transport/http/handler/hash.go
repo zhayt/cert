@@ -28,7 +28,9 @@ func (h *Handler) HashCalculation(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		h.l.Error("CalculateHash", zap.Error(err))
 
-		if errors.Is(err, service.ErrWorkersPool) {
+		if errors.Is(err, service.ErrInvalidData) {
+			h.respondWithError(w, http.StatusBadRequest, http.StatusText(http.StatusBadRequest))
+		} else if errors.Is(err, service.ErrWorkersPool) {
 			w.Header().Set("Content-Type", "application/json")
 
 			json.NewEncoder(w).Encode(struct {
@@ -36,10 +38,10 @@ func (h *Handler) HashCalculation(w http.ResponseWriter, r *http.Request) {
 			}{
 				Message: "The maximum number of hashes that can be computed simultaneously has been reached, try again later",
 			})
-			return
+		} else {
+			h.respondWithError(w, http.StatusInternalServerError, http.StatusText(http.StatusInternalServerError))
 		}
 
-		h.respondWithError(w, http.StatusInternalServerError, http.StatusText(http.StatusInternalServerError))
 		return
 	}
 

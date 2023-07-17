@@ -27,6 +27,7 @@ type HashService struct {
 	workersCount uint64
 	m            sync.Mutex
 	storage      *storage.Storage
+	validate     *ValidateService
 	crcTable     *crc64.Table
 	l            *zap.Logger
 }
@@ -36,6 +37,10 @@ func (s *HashService) GetCalculatedHash(hashID uint64) (model.CertHash, error) {
 }
 
 func (s *HashService) CalculateHash(certHash model.CertHash) (uint64, error) {
+	if err := s.validate.validateStruct(certHash); err != nil {
+		return 0, ErrInvalidData
+	}
+
 	err := s.addWorker()
 	if err != nil {
 		return 0, err
@@ -111,11 +116,12 @@ func (s *HashService) addWorker() error {
 	return nil
 }
 
-func NewHashService(storage *storage.Storage, l *zap.Logger) *HashService {
+func NewHashService(storage *storage.Storage, validate *ValidateService, l *zap.Logger) *HashService {
 	return &HashService{
 		workersLimit: N,
 		crcTable:     crc64.MakeTable(crc64.ISO),
 		storage:      storage,
+		validate:     validate,
 		l:            l,
 	}
 }
