@@ -32,6 +32,7 @@ func (h *Handler) HashCalculation(w http.ResponseWriter, r *http.Request) {
 			h.respondWithError(w, http.StatusBadRequest, http.StatusText(http.StatusBadRequest))
 		} else if errors.Is(err, service.ErrWorkersPool) {
 			w.Header().Set("Content-Type", "application/json")
+			w.WriteHeader(503)
 
 			json.NewEncoder(w).Encode(struct {
 				Message string `json:"message"`
