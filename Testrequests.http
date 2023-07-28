@@ -20,7 +20,7 @@ POST http://localhost:8000/rest/iin/check
 Content-Type: application/json
 
 {
-  "text": "Input your iin here: ____________, If it is valid, you will see it along with this iin in the response 011127550738. Regarding this INN 011127550739, it is not the correct INN, if you want to know why it is not valid, read the code where I check the INN, hint I do it in the service layer"
+  "text": "Input your iin here: ____________, If it is valid, you will see it along with this iin in the response 000000000000. Regarding this INN 012457890235, it is not the correct INN, if you want to know why it is not valid, read the code where I check the INN, hint I do it in the service layer"
 }
 
 
