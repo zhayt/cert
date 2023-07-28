@@ -52,7 +52,7 @@ func Test_validIIN(t *testing.T) {
 		args args
 		want bool
 	}{
-		{"success", args{iin: "011127550738"}, true},
+		{"success", args{iin: "022127660738"}, true},
 		{"failed", args{iin: "451312550789"}, false},
 	}
 	for _, tt := range tests {
