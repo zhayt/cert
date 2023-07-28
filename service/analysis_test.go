@@ -80,9 +80,9 @@ func TestAnalysisService_FindsIINs(t *testing.T) {
 		args   args
 		want   []string
 	}{
-		{"success", field, args{input: "asdfewi ewvhvbei evhweuib       \n\n\n  011127550738 ecwe 020304550896"}, []string{"011127550738"}},
-		{"success", field, args{input: "asdfewi ewvhvbei evhweuib       \n\n\n  011127550738, ecwe 020304550896"}, []string{"011127550738"}},
-		{"success", field, args{input: "asdfewi ewvhvbei evhweuib       \n\n\n  011327550738 ecwe 020304550896"}, []string{}},
+		{"success", field, args{input: "asdfewi ewvhvbei evhweuib       \n\n\n  022127660739 ecwe 020304550896"}, []string{"011127550738"}},
+		{"success", field, args{input: "asdfewi ewvhvbei evhweuib       \n\n\n  022127660739, ecwe 020304550896"}, []string{"011127550738"}},
+		{"success", field, args{input: "asdfewi ewvhvbei evhweuib       \n\n\n  022127660739 ecwe 020304550896"}, []string{}},
 		{"success", field, args{input: "asdfewi ewvhvbei evhweuib       \n\n\n wfcwq wqw"}, []string{}},
 	}
 	for _, tt := range tests {
