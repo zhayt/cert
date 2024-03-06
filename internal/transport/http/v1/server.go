@@ -1,9 +1,9 @@
-package http
+package v1
 
 import (
 	"context"
 	"github.com/zhayt/cert-tz/internal/config"
-	"github.com/zhayt/cert-tz/internal/transport/http/handler"
+	"github.com/zhayt/cert-tz/internal/transport/http/v1/handler"
 	"net"
 	"net/http"
 	"time"
