@@ -93,7 +93,7 @@ func run() error {
 		l.Info("server closing", zap.Error(err))
 	}
 
-	if err = httpServer.Shutdown(); err != nil && err != http.ErrServerClosed {
+	if err = httpServer.Shutdown(); err != nil && !errors.Is(err, http.ErrServerClosed) {
 		return fmt.Errorf("error while shutting down server: %s", err)
 	}
 
