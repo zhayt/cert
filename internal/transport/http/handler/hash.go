@@ -5,8 +5,8 @@ import (
 	"encoding/json"
 	"errors"
 	"github.com/gorilla/mux"
-	"github.com/zhayt/cert-tz/model"
-	"github.com/zhayt/cert-tz/service"
+	"github.com/zhayt/cert-tz/internal/model"
+	service2 "github.com/zhayt/cert-tz/internal/service"
 	"go.uber.org/zap"
 	"net/http"
 	"strconv"
@@ -41,9 +41,9 @@ func (h *Handler) HashCalculation(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		h.l.Error("CalculateHash", zap.Error(err))
 
-		if errors.Is(err, service.ErrInvalidData) {
+		if errors.Is(err, service2.ErrInvalidData) {
 			h.respondWithError(w, http.StatusBadRequest, http.StatusText(http.StatusBadRequest))
-		} else if errors.Is(err, service.ErrWorkersPool) {
+		} else if errors.Is(err, service2.ErrWorkersPool) {
 			w.Header().Set("Content-Type", "application/json")
 			w.WriteHeader(503)
 

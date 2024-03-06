@@ -4,9 +4,9 @@ import (
 	"context"
 	"github.com/jmoiron/sqlx"
 	"github.com/redis/go-redis/v9"
-	"github.com/zhayt/cert-tz/model"
-	"github.com/zhayt/cert-tz/storage/postgre"
-	cache "github.com/zhayt/cert-tz/storage/redis"
+	"github.com/zhayt/cert-tz/internal/model"
+	postgre2 "github.com/zhayt/cert-tz/internal/storage/postgre"
+	cache "github.com/zhayt/cert-tz/internal/storage/redis"
 )
 
 //go:generate mockery --name IUserStorage
@@ -38,9 +38,9 @@ type Storage struct {
 }
 
 func NewStorage(db *sqlx.DB, redisClient *redis.Client) *Storage {
-	userStorage := postgre.NewUserStorage(db)
+	userStorage := postgre2.NewUserStorage(db)
 	counterStorage := cache.NewCounterStorage(redisClient)
-	hashStorage := postgre.NewHashStorage(db)
+	hashStorage := postgre2.NewHashStorage(db)
 
 	return &Storage{
 		UserStorage: userStorage,

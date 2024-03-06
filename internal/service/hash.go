@@ -2,8 +2,8 @@ package service
 
 import (
 	"errors"
-	"github.com/zhayt/cert-tz/model"
-	"github.com/zhayt/cert-tz/storage"
+	"github.com/zhayt/cert-tz/internal/model"
+	"github.com/zhayt/cert-tz/internal/storage"
 	"go.uber.org/zap"
 	"hash/crc64"
 	"math/bits"

@@ -3,7 +3,7 @@ package postgre
 import (
 	"fmt"
 	"github.com/jmoiron/sqlx"
-	"github.com/zhayt/cert-tz/model"
+	"github.com/zhayt/cert-tz/internal/model"
 )
 
 type HashStorage struct {

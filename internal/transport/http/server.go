@@ -2,8 +2,8 @@ package http
 
 import (
 	"context"
-	"github.com/zhayt/cert-tz/config"
-	"github.com/zhayt/cert-tz/transport/http/handler"
+	"github.com/zhayt/cert-tz/internal/config"
+	"github.com/zhayt/cert-tz/internal/transport/http/handler"
 	"net"
 	"net/http"
 	"time"

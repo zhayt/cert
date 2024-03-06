@@ -2,9 +2,9 @@ package service
 
 import (
 	"github.com/stretchr/testify/mock"
-	"github.com/zhayt/cert-tz/model"
-	"github.com/zhayt/cert-tz/storage"
-	"github.com/zhayt/cert-tz/storage/mocks"
+	"github.com/zhayt/cert-tz/internal/model"
+	"github.com/zhayt/cert-tz/internal/storage"
+	"github.com/zhayt/cert-tz/internal/storage/mocks"
 	"go.uber.org/zap"
 	"testing"
 )

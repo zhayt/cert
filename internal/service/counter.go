@@ -2,7 +2,7 @@ package service
 
 import (
 	"context"
-	"github.com/zhayt/cert-tz/storage"
+	"github.com/zhayt/cert-tz/internal/storage"
 	"go.uber.org/zap"
 )
 

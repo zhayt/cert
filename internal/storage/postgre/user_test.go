@@ -6,13 +6,13 @@ import (
 	"github.com/jmoiron/sqlx"
 	"github.com/testcontainers/testcontainers-go"
 	"github.com/testcontainers/testcontainers-go/wait"
+	"github.com/zhayt/cert-tz/internal/storage/postgre"
 	"regexp"
 	"testing"
 
 	"github.com/DATA-DOG/go-sqlmock"
 	"github.com/stretchr/testify/assert"
-	"github.com/zhayt/cert-tz/model"
-	"github.com/zhayt/cert-tz/storage/postgre"
+	"github.com/zhayt/cert-tz/internal/model"
 )
 
 func TestUserStorage_CreateUser(t *testing.T) {

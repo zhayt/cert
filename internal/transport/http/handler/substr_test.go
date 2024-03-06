@@ -3,7 +3,7 @@ package handler
 import (
 	"bytes"
 	"encoding/json"
-	"github.com/zhayt/cert-tz/service"
+	"github.com/zhayt/cert-tz/internal/service"
 	"go.uber.org/zap"
 	"net/http"
 	"net/http/httptest"

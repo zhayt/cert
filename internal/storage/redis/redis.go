@@ -4,7 +4,7 @@ import (
 	"context"
 	"fmt"
 	"github.com/redis/go-redis/v9"
-	"github.com/zhayt/cert-tz/config"
+	"github.com/zhayt/cert-tz/internal/config"
 	"net"
 	"time"
 )

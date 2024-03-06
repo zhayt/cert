@@ -3,8 +3,8 @@ package service
 import (
 	"context"
 	"errors"
-	"github.com/zhayt/cert-tz/model"
-	"github.com/zhayt/cert-tz/storage"
+	"github.com/zhayt/cert-tz/internal/model"
+	"github.com/zhayt/cert-tz/internal/storage"
 	"go.uber.org/zap"
 	"golang.org/x/text/cases"
 	"golang.org/x/text/language"

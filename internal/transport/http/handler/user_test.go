@@ -8,9 +8,9 @@ import (
 	"github.com/jmoiron/sqlx"
 	"github.com/testcontainers/testcontainers-go"
 	"github.com/testcontainers/testcontainers-go/wait"
-	"github.com/zhayt/cert-tz/service"
-	"github.com/zhayt/cert-tz/storage"
-	"github.com/zhayt/cert-tz/storage/postgre"
+	service2 "github.com/zhayt/cert-tz/internal/service"
+	"github.com/zhayt/cert-tz/internal/storage"
+	"github.com/zhayt/cert-tz/internal/storage/postgre"
 	"go.uber.org/zap"
 	"net/http"
 	"net/http/httptest"
@@ -74,12 +74,12 @@ func TestHandler_CreateUser(t *testing.T) {
 	}
 
 	type fields struct {
-		service *service.Service
+		service *service2.Service
 		l       *zap.Logger
 	}
 
 	field := fields{
-		service: &service.Service{User: service.NewUserService(repo, service.NewValidateService(), zap.NewExample())},
+		service: &service2.Service{User: service2.NewUserService(repo, service2.NewValidateService(), zap.NewExample())},
 		l:       zap.NewNop(),
 	}
 

@@ -1,15 +1,16 @@
 package main
 
 import (
+	"errors"
 	"fmt"
-	"github.com/zhayt/cert-tz/config"
 	_ "github.com/zhayt/cert-tz/docs"
-	"github.com/zhayt/cert-tz/service"
-	"github.com/zhayt/cert-tz/storage"
-	"github.com/zhayt/cert-tz/storage/postgre"
-	cache "github.com/zhayt/cert-tz/storage/redis"
-	server "github.com/zhayt/cert-tz/transport/http"
-	"github.com/zhayt/cert-tz/transport/http/handler"
+	"github.com/zhayt/cert-tz/internal/config"
+	"github.com/zhayt/cert-tz/internal/service"
+	"github.com/zhayt/cert-tz/internal/storage"
+	"github.com/zhayt/cert-tz/internal/storage/postgre"
+	cache "github.com/zhayt/cert-tz/internal/storage/redis"
+	server "github.com/zhayt/cert-tz/internal/transport/http"
+	"github.com/zhayt/cert-tz/internal/transport/http/handler"
 	"go.uber.org/zap"
 	"log"
 	"net/http"
@@ -32,17 +33,13 @@ func main() {
 }
 
 func run() error {
-	// load env
 	var once sync.Once
 	once.Do(config.PrepareENV)
 
-	// get config
 	cfg, err := config.NewConfig()
 	if err != nil {
 		return err
 	}
-
-	// init logger
 
 	l, err := zap.NewDevelopment()
 	if err != nil {
@@ -56,7 +53,6 @@ func run() error {
 		}
 	}(l)
 
-	// init repo layer
 	db, err := postgre.Dial(constructDSN(cfg))
 	if err != nil {
 		return err
@@ -70,19 +66,15 @@ func run() error {
 
 	repo := storage.NewStorage(db, redisClient)
 
-	// init service layer
 	usecases := service.NewService(repo, l)
 
-	// init handler layer
 	controller := handler.NewHandler(usecases, l)
 
-	// init http server instance
 	httpServer := server.NewServer(cfg, controller)
 
 	l.Info("Start app", zap.String("port", cfg.AppPort))
 	httpServer.StartServer()
 
-	// grace full shutdown
 	osSignCh := make(chan os.Signal, 1)
 	signal.Notify(osSignCh, syscall.SIGINT, syscall.SIGTERM)
 

@@ -2,7 +2,7 @@ package service
 
 import (
 	"github.com/go-playground/validator/v10"
-	"github.com/zhayt/cert-tz/model"
+	"github.com/zhayt/cert-tz/internal/model"
 	"testing"
 )
 

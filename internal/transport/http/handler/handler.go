@@ -1,7 +1,7 @@
 package handler
 
 import (
-	"github.com/zhayt/cert-tz/service"
+	"github.com/zhayt/cert-tz/internal/service"
 	"go.uber.org/zap"
 	"time"
 )
