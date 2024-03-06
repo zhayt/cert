@@ -41,7 +41,7 @@ services:
 
   app:
     build:
-      context: build
+      context: ./build
       dockerfile: Dockerfile
     restart: always
     ports:
