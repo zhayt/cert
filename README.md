@@ -22,7 +22,7 @@ docker-compose up --build
 ```
 или
 ```shell
-./run.sh
+./scripts/app/run.sh
 ```
 4. Чтобы остановить приложение, выполните команду:
 ```shell
