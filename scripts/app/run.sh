@@ -1,3 +1,3 @@
 #!/bin/bash
-chmod +x db-init/*
-docker-compose up --build
+chmod +x scripts/database/postgres/*
+docker compose -f docker-compose.yml up --build --force-recreate --no-deps
