@@ -10,7 +10,7 @@ services:
     image: postgres:alpine
     restart: always
     volumes:
-      - ./db-init/:/docker-entrypoint-initdb.d/
+      - ./db-init/database/postgres/:/docker-entrypoint-initdb.d/
     environment:
       - POSTGRES_DB=cert_db
       - POSTGRES_USER=cert
